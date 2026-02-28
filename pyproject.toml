@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vesna"
+version = "0.1.0"
+authors = [
+  { name="Qulowg", email="qulowg@gmail.com" },
+]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/BRamil0/vesna"
+Issues = "https://github.com/BRamil0/vesna/issues"
