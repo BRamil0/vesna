@@ -1,9 +1,10 @@
 import asyncio
 
-import vesna
+import vesna.locale
 
 async def main():
-    pass
+    l = vesna.locale.Locale("en")
+    print(l["test"])
 
 if __name__ == "__main__":
     asyncio.run (main())
