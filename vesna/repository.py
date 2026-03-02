@@ -1,28 +1,28 @@
-from typing import Dict
+from vesna.meta.meta_default_object import MetaDefaultObject
+from vesna.models.localisation_model import LocalisationModel
 
-import pydantic
-
-from vesna.meta_default_object import MetaDefaultObject
-
-class TranslationModel(pydantic.BaseModel):
-    data: Dict[str, str]
-    locale_code: str # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
 
 class Repository(metaclass=MetaDefaultObject):
     def __init__(self) -> None:
-        self._storage: Dict[str, TranslationModel] = {}
+        self._storage: dict[str, LocalisationModel] = {}
 
-    async def add_translation(self) -> TranslationModel:
-        pass
+    def __getitem__(self, model: str) -> str:
+        return self._storage.__getitem__(model)
 
-    async def get_translation(self) -> TranslationModel:
-        pass
+    async def get(self, locale_code: str) -> LocalisationModel:
+        return self._storage.get(locale_code)
 
-    async def set_translation(self, data: TranslationModel) -> TranslationModel:
-        pass
+    async def update(self, locale_code: str, model: LocalisationModel) -> None:
+        self._storage.update({locale_code: model})
 
-    def get_text(self, locale_code: str, key: str) -> str | None:
-        model: TranslationModel = self._storage.get(locale_code)
+    async def pop(self, locale_code: str) -> None:
+        self._storage.pop(locale_code)
+
+    async def clear(self) -> None:
+        self._storage.clear()
+
+    def get_text(self, key: str, locale_code: str) -> str | None:
+        model: LocalisationModel = self._storage.get(locale_code)
         if not model:
             return None
 
