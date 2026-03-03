@@ -6,9 +6,10 @@ from vesna.parser import Parser
 from vesna.repository import Repository, LocalisationModel
 
 class Vesna(metaclass=MetaDefaultObject):
-    def __init__(self, parser: Parser | None = None, repository: Repository | None = None, is_exception: bool = False) -> None:
-        self.parser: Parser = parser or Parser.default_object or Parser()
-        self.repository: Repository = repository or Repository.default_object or Repository()
+    @MetaDefaultObject.meta_inject(auto_creation=True)
+    def __init__(self, parser: Parser, repository: Repository, is_exception: bool = False) -> None:
+        self.parser: Parser = parser
+        self.repository: Repository = repository
         self.babel: BabelHandler = BabelHandler()
         self.default_locale: str | None = None
         self.is_exception: bool = is_exception

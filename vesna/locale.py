@@ -5,9 +5,10 @@ from vesna.vesna import Vesna
 from vesna.meta.meta_cache import MetaCache
 
 class Locale(metaclass=MetaCache):
-    def __init__(self, locale_code: str, vesna: Vesna | None = None) -> None:
+    @Vesna.meta_inject(auto_creation=True)
+    def __init__(self, locale_code: str, vesna: Vesna) -> None:
         self.locale_code: str = locale_code
-        self.vesna: Vesna = vesna or Vesna.default_object or Vesna()
+        self.vesna: Vesna = vesna
 
     def __getitem__(self, key: str) -> str:
         return self.vesna.get_text(key, self.locale_code)
