@@ -1,93 +1,85 @@
 import pathlib
 
-import babel
-
 from vesna.meta.meta_default_object import MetaDefaultObject
-from vesna.parser import Parser
-from vesna.repository import Repository, LocalisationModel
+from vesna.providers import BaseProvider
 
 class Vesna(metaclass=MetaDefaultObject):
     @MetaDefaultObject.meta_inject(auto_creation=True)
-    def __init__(self, parser: Parser, repository: Repository, is_exception: bool = False) -> None:
-        self.parser: Parser = parser
-        self.repository: Repository = repository
-        self.default_locale: str | None = None
-        self.is_exception: bool = is_exception
+    def __init__(self, default_locale: str | None = None, default_path: pathlib.Path | str | None = None) -> None:
 
-    async def load_translation(self, default_path: pathlib.Path | None = None,
-                               default_file_name: str = "{locale_code}",
-                               *args: str, **kwargs: str) -> bool:
-        """
-        :param default_path: Path for dir
-        :param default_file_name: File name, write {locale_code} for the code
-        :param args: Locale code
-        :param kwargs: Locale code + File name, write {locale_code} for the code
-        :return: Returns True if everything is fine. Returns False if the file is not found. Returns an exception if they occurred.
-        """
+        self.providers: dict[str, BaseProvider] = {}
+        self.default_locale: str | None = default_locale
+        self.default_path: pathlib.Path | str | None = default_path
 
-        base_path = default_path or self.parser.path
-        if not base_path and args:
-            raise KeyError("Base path for positional arguments (*args) not set")
+    def _path_handler(self, path: pathlib.Path | str | None, locale_code: str) -> pathlib.Path:
+        path = path or self.default_path
+        if not path:
+            raise RuntimeError("Path is None")
 
-        if default_path:
-            await self.parser.set_path(default_path)
+        if isinstance(path, str):
+            if "{locale_code}" in path:
+                path = path.format(locale_code=locale_code)
 
-        if not default_file_name:
-            raise TypeError("The path must be an object of pathlib.Path or String.")
+            path = pathlib.Path(path)
 
-        loaded_models: list[LocalisationModel] = []
-        if isinstance(base_path, str):
-            base_path = pathlib.Path(base_path)
-        elif not isinstance(base_path, pathlib.Path) and not isinstance(base_path, pathlib.Path):
-            raise KeyError("Base path for positional arguments (*args) not set")
+        if not path.is_file():
+            raise FileNotFoundError(path)
+
+        return path
+
+    async def load_file(self, provider: BaseProvider | None = None,
+                        locale_code: str | None = None,
+                        path: pathlib.Path | str | None = None) -> None:
+        locale_code = locale_code or self.default_locale
+        if not locale_code:
+            raise RuntimeError("Locale code is None")
+
+        if provider:
+            self.providers[locale_code] = provider
+
+        provider = provider or self.providers.get(locale_code, None)
+        if not provider:
+            raise RuntimeError("Provider is None")
+
+        if not provider.is_empty():
+            raise RuntimeError("Provider is not empty")
+
+        path: pathlib.Path = self._path_handler(path, locale_code)
+
+        await provider.load_file(path, locale_code)
+
+    async def save_file(self, locale_code: str | None = None) -> None:
+        locale_code = locale_code or self.default_locale
+        if not locale_code:
+            raise RuntimeError("Locale code is None")
+
+        await self.providers[locale_code].save_file(locale_code)
+
+    def get_text(self, key: str, locale_code: str, is_exception: bool = False) -> str:
         try:
-            for code in args:
-                file_name = default_file_name.format(locale_code=code)
-                model = await self.parser.parse(file_name, base_path)
-                loaded_models.append(model)
+            provider = self.providers.get(locale_code)
+            if not provider:
+                raise KeyError(f"Locale '{locale_code}' not loaded")
+            value = provider.get(key, default=None)
 
-            for code, value in kwargs.items():
-                if "{locale_code}" in value:
-                    full_path = pathlib.Path(value.format(locale_code=code))
-                    model = await self.parser.parse(full_path.name, full_path.parent)
-                else:
-                    file_name = default_file_name.format(locale_code=code)
-                    model = await self.parser.parse(file_name, pathlib.Path(value))
+            if value is None:
+                raise KeyError(f"Key '{key}' missing")
 
-                loaded_models.append(model)
-
-            for model in loaded_models:
-                await self.repository.update(model.locale_code, model)
-        except FileNotFoundError:
-            return False
-
-        return True
-
-    def get_text(self, key: str, locale_code: str) -> str:
-        value: str = self.repository.get_text(key, locale_code)
-        if value is None:
+            return value
+        except KeyError as e:
             if self.default_locale and locale_code != self.default_locale:
-                return self.get_text(key, self.default_locale)
-            elif self.is_exception:
-                raise KeyError("Key not found")
+                return self.get_text(key, self.default_locale, is_exception)
 
-        return value or key
+            if is_exception:
+                raise KeyError(f"Key '{key}' not found in '{locale_code}'") from e
+            return key
 
-    async def aget_text(self, key: str, locale_code: str,
-                        lazy_loading: bool = False,
-                        lazy_path: pathlib.Path | None = None,
-                        lazy_file_name: str = "{locale_code}") -> str:
-        value: str = self.repository.get_text(key, locale_code)
-        if value is None:
-            if lazy_loading and await self.load_translation(lazy_path, lazy_file_name, locale_code):
-                return await self.aget_text(key, locale_code)
-            elif self.default_locale and locale_code != self.default_locale:
-                return await self.aget_text(key, self.default_locale)
-            elif self.is_exception:
-                raise KeyError("Key not found")
+    def set_text(self, key: str, value: str, locale_code: str, is_exception: bool = False) -> str:
+        provider = self.providers.get(locale_code)
+        if not provider:
+            raise KeyError(f"Locale '{locale_code}' not loaded")
 
-        return value or key
-
+        return provider.set(key, value)
 
 vesna: Vesna = Vesna()
 
