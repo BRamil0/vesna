@@ -3,11 +3,10 @@ import asyncio
 import vesna
 
 async def main():
-    vesna.i18n.is_exception = True
-    print(await vesna.i18n.load_translation(
-        "tests/localisation/",
-        "{locale_code}.json",
-        "uk"))
+    await vesna.i18n.load_file(
+        vesna.ProviderJSON(),
+        "uk",
+        "tests/localisation/{locale_code}.json")
 
     l = vesna.Locale("uk")
     print(l["hello"])
