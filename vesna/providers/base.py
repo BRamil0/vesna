@@ -42,7 +42,7 @@ class BaseProvider(ABC):
         pass
 
     @abstractmethod
-    async def save_file(self, path: pathlib.Path) -> None:
+    async def save_file(self, path: pathlib.Path | None = None) -> None:
         pass
 
     @abstractmethod
