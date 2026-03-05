@@ -8,9 +8,9 @@ class BaseProvider(ABC):
         pass
 
     @classmethod
-    async def from_file(cls, path: pathlib.Path) -> BaseProvider:
+    async def from_file(cls, path: pathlib.Path, locale_code: str) -> BaseProvider:
         instance = cls()
-        await instance.load_file(path)
+        await instance.load_file(path, locale_code)
         return instance
 
     @abstractmethod
@@ -30,7 +30,15 @@ class BaseProvider(ABC):
         pass
 
     @abstractmethod
-    async def load_file(self, path: pathlib.Path) -> None:
+    def get_locale_code(self) -> str | None:
+        pass
+
+    @abstractmethod
+    def get_file_path(self) -> pathlib.Path | None:
+        pass
+
+    @abstractmethod
+    async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         pass
 
     @abstractmethod
@@ -39,4 +47,8 @@ class BaseProvider(ABC):
 
     @abstractmethod
     async def clean(self) -> None:
+        pass
+
+    @abstractmethod
+    def is_empty(self) -> bool:
         pass
