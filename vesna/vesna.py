@@ -12,10 +12,6 @@ class Vesna(metaclass=MetaDefaultObject):
         self.default_path: pathlib.Path | str | None = default_path
 
     def _path_handler(self, path: pathlib.Path | str | None, locale_code: str) -> pathlib.Path:
-        path = path or self.default_path
-        if not path:
-            raise RuntimeError("Path is None")
-
         if isinstance(path, str):
             if "{locale_code}" in path:
                 path = path.format(locale_code=locale_code)
@@ -44,16 +40,22 @@ class Vesna(metaclass=MetaDefaultObject):
         if not provider.is_empty():
             raise RuntimeError("Provider is not empty")
 
+        path = path or self.default_path
+        if not path:
+            raise RuntimeError("Path is None")
         path: pathlib.Path = self._path_handler(path, locale_code)
 
         await provider.load_file(path, locale_code)
 
-    async def save_file(self, locale_code: str | None = None) -> None:
+    async def save_file(self, locale_code: str | None = None, path: pathlib.Path | str | None = None) -> None:
         locale_code = locale_code or self.default_locale
         if not locale_code:
             raise RuntimeError("Locale code is None")
 
-        await self.providers[locale_code].save_file(locale_code)
+        path = path or self.default_path
+        path: pathlib.Path = self._path_handler(path, locale_code)
+
+        await self.providers[locale_code].save_file(path)
 
     def get_text(self, key: str, locale_code: str, is_exception: bool = False) -> str:
         try:
@@ -77,8 +79,9 @@ class Vesna(metaclass=MetaDefaultObject):
     def set_text(self, key: str, value: str, locale_code: str, is_exception: bool = False) -> str:
         provider = self.providers.get(locale_code)
         if not provider:
-            raise KeyError(f"Locale '{locale_code}' not loaded")
-
+            if is_exception:
+                raise KeyError(f"Locale '{locale_code}' not loaded")
+            return key
         return provider.set(key, value)
 
 vesna: Vesna = Vesna()
