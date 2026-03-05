@@ -1,6 +1,7 @@
 import pathlib
 
-from vesna.babel_handler import BabelHandler
+import babel
+
 from vesna.meta.meta_default_object import MetaDefaultObject
 from vesna.parser import Parser
 from vesna.repository import Repository, LocalisationModel
@@ -10,7 +11,6 @@ class Vesna(metaclass=MetaDefaultObject):
     def __init__(self, parser: Parser, repository: Repository, is_exception: bool = False) -> None:
         self.parser: Parser = parser
         self.repository: Repository = repository
-        self.babel: BabelHandler = BabelHandler()
         self.default_locale: str | None = None
         self.is_exception: bool = is_exception
 
