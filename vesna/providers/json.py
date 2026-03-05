@@ -60,4 +60,4 @@ class ProviderJSON(BaseProvider):
         self._path = None
 
     def is_empty(self) -> bool:
-        return self._storage == {} or self._locale_code or self._path
+        return len(self._storage) == 0
