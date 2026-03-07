@@ -54,7 +54,7 @@ async def test_save():
         await vesna.i18n.save_file(None)
 
 def test_get(locale):
-    assert locale.get("hello") == "Привіт"
+    assert locale.get("hello") == "Привіт {}"
 
 def test_key(locale):
-    assert locale["hello"] == "Привіт"
+    assert locale["hello"] == "Привіт {}"
