@@ -9,32 +9,22 @@ class ProviderProtocol(Protocol):
         await instance.load_file(path, locale_code)
         return instance
 
-    def __getitem__(self, key: str) -> str:
-        pass
+    def __getitem__(self, key: str) -> str: ...
 
-    def __setitem__(self, key: str, value: str) -> str:
-        pass
+    def __setitem__(self, key: str, value: str) -> str: ...
 
-    def get(self, key: str, default: str | None = None) -> str:
-        pass
+    def get(self, key: str, default: str | None = None) -> str: ...
 
-    def set(self, key: str, value: str) -> str:
-        pass
+    def set(self, key: str, value: str) -> str: ...
 
-    def get_locale_code(self) -> str | None:
-        pass
+    def get_locale_code(self) -> str | None: ...
 
-    def get_file_path(self) -> pathlib.Path | None:
-        pass
+    def get_file_path(self) -> pathlib.Path | None: ...
 
-    async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
-        pass
+    async def load_file(self, path: pathlib.Path, locale_code: str) -> None: ...
 
-    async def save_file(self, path: pathlib.Path | None = None) -> None:
-        pass
+    async def save_file(self, path: pathlib.Path | None = None) -> None: ...
 
-    async def clean(self) -> None:
-        pass
+    async def clean(self) -> None: ...
 
-    def is_empty(self) -> bool:
-        pass
+    def is_empty(self) -> bool: ...
