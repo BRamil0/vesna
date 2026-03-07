@@ -41,7 +41,6 @@ class ProviderYAML(DictProvider):
         self.yaml.dump(data_to_save, buf)
 
         async with aiofiles.open(path, "wb") as f:
-            yaml_string = self.yaml.dump(data_to_save)
             await f.write(buf.getvalue())
 
 class YAMLDataModel(DataDictModel):
