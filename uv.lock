@@ -209,12 +209,16 @@ wheels = [
 
 [[package]]
 name = "vesna"
-version = "0.1.0"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
-    { name = "babel" },
     { name = "pydantic" },
+]
+
+[package.optional-dependencies]
+toml = [
+    { name = "babel" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "rtoml" },
@@ -224,10 +228,11 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "aiofiles" },
-    { name = "babel" },
+    { name = "babel", marker = "extra == 'toml'" },
     { name = "pydantic" },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "rtoml" },
-    { name = "ruamel-yaml" },
+    { name = "pytest", marker = "extra == 'toml'" },
+    { name = "pytest-asyncio", marker = "extra == 'toml'" },
+    { name = "rtoml", marker = "extra == 'toml'" },
+    { name = "ruamel-yaml", marker = "extra == 'toml'" },
 ]
+provides-extras = ["toml"]

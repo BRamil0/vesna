@@ -4,26 +4,39 @@ build-backend = "hatchling.build"
 
 [project]
 name = "vesna"
-version = "0.1.0"
+version = "1.0.0"
+
 authors = [
   { name="Qulowg", email="qulowg@gmail.com" },
 ]
-description = "Add your description here"
+
+description = "A small library specialising in convenient localisation"
 readme = "README.md"
 requires-python = ">=3.14"
+
 dependencies = [
-    "babel",
     "pydantic",
     "aiofiles",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Internationalization",
+    "Topic :: Software Development :: Localization",
+]
+
+[project.optional-dependencies]
+toml = [
+    "babel",
     "pytest",
     "pytest-asyncio",
     "rtoml",
     "ruamel.yaml",
-]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
 ]
 
 [project.urls]
