@@ -6,7 +6,7 @@ import vesna
 async def setup_i18n():
     try:
         await vesna.i18n.load_file(
-            vesna.ProviderJSON(),
+            vesna.providers.ProviderJSON(),
             "uk",
             "tests/localisation/{locale_code}.json")
     except (RuntimeError, KeyError, FileNotFoundError):
@@ -17,7 +17,7 @@ def locale():
     return vesna.Locale("uk")
 
 async def test_load():
-    provider = vesna.ProviderJSON()
+    provider = vesna.providers.ProviderJSON()
     locale_code = "en"
     path = "tests/localisation/{locale_code}.json"
     i18n = vesna.Vesna()

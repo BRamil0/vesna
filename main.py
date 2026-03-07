@@ -4,7 +4,7 @@ import vesna
 
 async def main():
     await vesna.i18n.load_file(
-        vesna.ProviderJSON(),
+        vesna.providers.ProviderJSON(),
         "uk",
         "tests/localisation/{locale_code}.json")
 

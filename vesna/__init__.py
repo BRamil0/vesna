@@ -1,5 +1,5 @@
 from .vesna import Vesna, vesna, i18n
 from .locale import Locale
-from .providers.json import ProviderJSON
+from vesna import providers
 
-__all__ = ["Vesna", "vesna", "i18n", "Locale", "ProviderJSON"]
+__all__ = ["Vesna", "vesna", "i18n", "Locale", "providers"]
