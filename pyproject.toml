@@ -17,6 +17,8 @@ dependencies = [
     "aiofiles",
     "pytest",
     "pytest-asyncio",
+    "rtoml",
+    "ruamel.yaml",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
