@@ -25,13 +25,12 @@ class Locale(metaclass=MetaCache):
     def __getitem__(self, key: str) -> str:
         return self.vesna.get_text(key, self.locale_code)
 
-    def __call__(self, key: str, **kwargs) -> str:
-        text = self.vesna.get_text(key, self.locale_code)
-        return text.format(**kwargs) if kwargs else text
+    def __call__(self, key: str, *args, **kwargs) -> str:
+        return self.get(key, *args, **kwargs)
 
-    def get(self, key: str, **kwargs) -> str:
+    def get(self, key: str, *args, **kwargs) -> str:
         text = self.vesna.get_text(key, self.locale_code)
-        return text.format(**kwargs) if kwargs else text
+        return text.format(*args, **kwargs) if kwargs or args else text
 
     if SUPPORT_BABEL:
         @property
