@@ -1,3 +1,3 @@
-from .base import BaseProvider
+from .protocol import ProviderProtocol
 
-__all__ = ["BaseProvider"]
+__all__ = ["ProviderProtocol"]

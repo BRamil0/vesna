@@ -6,9 +6,9 @@ import pathlib
 import pydantic
 import aiofiles
 
-from vesna.providers.provider import Provider, DataDictModel
+from vesna.providers.dict_provider import DictProvider, DataDictModel
 
-class ProviderYAML(Provider):
+class ProviderYAML(DictProvider):
     def __init__(self, type: str = "safe"):
         super().__init__()
         self.yaml = YAML(typ=type)

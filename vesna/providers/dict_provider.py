@@ -1,12 +1,10 @@
 import pathlib
 import typing
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import pydantic
 
-from vesna.providers.base import BaseProvider
-
-class Provider(BaseProvider, ABC):
+class DictProvider(ABC):
     def __init__(self) -> None:
         self._storage: DataDictModel | None = None
 
@@ -31,6 +29,15 @@ class Provider(BaseProvider, ABC):
     def set(self, key: str, value: str) -> str:
         self._storage.data[key] = value
         return value
+
+    @abstractmethod
+    async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
+        pass
+
+    @abstractmethod
+    async def save_file(self, path: pathlib.Path | None = None) -> None:
+        pass
+
 
     def get_locale_code(self) -> str | None:
         return self._storage.locale_code

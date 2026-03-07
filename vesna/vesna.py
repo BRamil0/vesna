@@ -1,13 +1,13 @@
 import pathlib
 
 from vesna.meta.meta_default_object import MetaDefaultObject
-from vesna.providers import BaseProvider
+from vesna.providers import ProviderProtocol
 
 class Vesna(metaclass=MetaDefaultObject):
     @MetaDefaultObject.meta_inject(auto_creation=True)
     def __init__(self, default_locale: str | None = None, default_path: pathlib.Path | str | None = None) -> None:
 
-        self.providers: dict[str, BaseProvider] = {}
+        self.providers: dict[str, ProviderProtocol] = {}
         self.default_locale: str | None = default_locale
         self.default_path: pathlib.Path | str | None = default_path
 
@@ -23,7 +23,7 @@ class Vesna(metaclass=MetaDefaultObject):
 
         return path
 
-    async def load_file(self, provider: BaseProvider | None = None,
+    async def load_file(self, provider: ProviderProtocol | None = None,
                         locale_code: str | None = None,
                         path: pathlib.Path | str | None = None) -> None:
         locale_code = locale_code or self.default_locale

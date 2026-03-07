@@ -4,9 +4,9 @@ import pydantic
 from pydantic_core import from_json
 import aiofiles
 
-from vesna.providers.provider import Provider, DataDictModel
+from vesna.providers.dict_provider import DictProvider, DataDictModel
 
-class ProviderJSON(Provider):
+class ProviderJSON(DictProvider):
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 

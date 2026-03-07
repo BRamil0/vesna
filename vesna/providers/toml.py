@@ -4,9 +4,9 @@ import pathlib
 import pydantic
 import aiofiles
 
-from vesna.providers.provider import Provider, DataDictModel
+from vesna.providers.dict_provider import DictProvider, DataDictModel
 
-class ProviderTOML(Provider):
+class ProviderTOML(DictProvider):
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 
