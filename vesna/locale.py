@@ -1,8 +1,16 @@
 import datetime
 
-import babel
+try:
+    import babel
+    from vesna.babel_handler import BabelHandler
 
-from vesna.babel_handler import BabelHandler
+    SUPPORT_BABEL = True
+except ImportError:
+    babel = None
+    BabelHandler = None
+
+    SUPPORT_BABEL = False
+
 from vesna.vesna import Vesna
 
 from vesna.meta.meta_cache import MetaCache
@@ -17,26 +25,35 @@ class Locale(metaclass=MetaCache):
     def __getitem__(self, key: str) -> str:
         return self.vesna.get_text(key, self.locale_code)
 
-    def __call__(self, key: str) -> str:
-        return self.vesna.get_text(key, self.locale_code)
+    def __call__(self, key: str, **kwargs) -> str:
+        text = self.vesna.get_text(key, self.locale_code)
+        return text.format(**kwargs) if kwargs else text
 
-    def get(self, key: str) -> str:
-        return self.vesna.get_text(key, self.locale_code)
+    def get(self, key: str, **kwargs) -> str:
+        text = self.vesna.get_text(key, self.locale_code)
+        return text.format(**kwargs) if kwargs else text
 
-    @property
-    def babel(self) -> babel.Locale:
-        return self.babel_handler.get_locale(self.locale_code)
+    if SUPPORT_BABEL:
+        @property
+        def babel(self) -> babel.Locale:
+            return self.babel_handler.get_locale(self.locale_code)
 
-    def date(self, value: datetime.datetime, format: str = 'medium') -> str:
-        return self.babel_handler.format_date(value, self.locale_code, format)
+        def date(self, value: datetime.date | datetime.datetime | datetime.time, format: str = 'medium') -> str:
+            return self.babel_handler.format_date(value, self.locale_code, format)
 
-    def plural(self, key: str, count: int, **kwargs) -> str:
-        plural_form = self.babel_handler.get_plural_form(count, self.locale_code)
+        def plural(self, key: str, count: int, **kwargs) -> str:
+            plural_form = self.babel_handler.get_plural_form(count, self.locale_code)
 
-        full_key = f"{key}.{plural_form}"
-        text = self.get(full_key)
+            full_key = f"{key}.{plural_form}"
+            text = self.get(full_key)
 
-        if text == full_key:
-            text = self.get(key)
+            if text == full_key:
+                text = self.get(key)
 
-        return text.format(count=count, **kwargs)
+            return text.format(count=count, **kwargs)
+
+        def currency(self, amount: float | int, currency_code: str = "USD") -> str:
+            return self.babel_handler.format_currency(amount, currency_code, self.locale_code)
+
+        def number(self, value: float | int) -> str:
+            return self.babel_handler.format_decimal(value, self.locale_code)
