@@ -1,5 +1,4 @@
 import datetime
-import pathlib
 
 import babel
 
@@ -18,13 +17,11 @@ class Locale(metaclass=MetaCache):
     def __getitem__(self, key: str) -> str:
         return self.vesna.get_text(key, self.locale_code)
 
-    def get(self, key: str) -> str:
+    def __call__(self, key: str) -> str:
         return self.vesna.get_text(key, self.locale_code)
 
-    async def aget(self, key: str, lazy_loading: bool = False,
-                        lazy_path: pathlib.Path | None = None,
-                        lazy_file_name: str = "{locale_code}") -> str:
-        return await self.vesna.aget_text(key, self.locale_code, lazy_loading, lazy_path, lazy_file_name)
+    def get(self, key: str) -> str:
+        return self.vesna.get_text(key, self.locale_code)
 
     @property
     def babel(self) -> babel.Locale:
