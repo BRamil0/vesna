@@ -118,3 +118,7 @@ class GettextModel(pydantic.BaseModel):
     path: pathlib.Path | None = None
 
     version: str = "1.0.0"
+
+    @property
+    def locale_code(self) -> str | None:
+        return str(self.data.locale) if self.data.locale else None
