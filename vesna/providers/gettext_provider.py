@@ -1,12 +1,12 @@
 import pathlib
-from io import StringIO, BytesIO
+from io import BytesIO, StringIO
 
-import pydantic
 import aiofiles
-
+import pydantic
 from babel.messages.catalog import Catalog
-from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
+from babel.messages.pofile import read_po, write_po
+
 
 class GettextProvider:
     def __init__(self) -> None:
@@ -66,7 +66,7 @@ class GettextProvider:
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 
-        if path.suffix == '.mo':
+        if path.suffix == ".mo":
             # Читаємо бінарний MO файл
             async with aiofiles.open(path, "rb") as f:
                 content = await f.read()
@@ -81,10 +81,7 @@ class GettextProvider:
                 buf = StringIO(content)
                 catalog = read_po(buf, locale=locale_code)
 
-        self._storage = GettextModel(
-            data=catalog,
-            path=path
-        )
+        self._storage = GettextModel(data=catalog, path=path)
 
     async def save_file(self, path: pathlib.Path | None = None) -> None:
         target_path = path or (self._storage.path if self._storage else None)
@@ -104,7 +101,7 @@ class GettextProvider:
         target_path = path
         if not target_path:
             if self._storage.path:
-                target_path = self._storage.path.with_suffix('.mo')
+                target_path = self._storage.path.with_suffix(".mo")
             else:
                 raise ValueError("Path is empty")
 
@@ -119,6 +116,7 @@ class GettextProvider:
 
     def is_empty(self) -> bool:
         return self._storage is None
+
 
 class GettextModel(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)

@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 import pydantic
 
+
 class DictProvider(ABC):
     def __init__(self) -> None:
         self._storage: DataDictModel | None = None
@@ -15,7 +16,7 @@ class DictProvider(ABC):
         return self.set(key, value)
 
     def get(self, key: str, default: str | None = None, **kwargs) -> str:
-        parts = key.split('.')
+        parts = key.split(".")
         data = self._storage.data
 
         for part in parts:
@@ -57,8 +58,9 @@ class DictProvider(ABC):
     def is_empty(self) -> bool:
         return self._storage is None
 
+
 class DataDictModel(pydantic.BaseModel):
     data: dict[str, typing.Any]
-    locale_code: str # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
+    locale_code: str  # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
     path: pathlib.Path | None = None
     version: str = "1.0.0"

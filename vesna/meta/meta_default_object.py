@@ -53,10 +53,14 @@ class MetaDefaultObject(type):
                                 instance = param.annotation()
                                 bound_args.arguments[name] = instance
                             else:
-                                raise TypeError(f"Missing required argument: '{name}' ({param.annotation}). \
-                                No instance found in registry.")
+                                raise TypeError(
+                                    f"Missing required argument: '{name}' ({param.annotation}). \
+                                No instance found in registry."
+                                )
 
                 bound_args.apply_defaults()
                 return func(*bound_args.args, **bound_args.kwargs)
+
             return wrapper
+
         return decorator

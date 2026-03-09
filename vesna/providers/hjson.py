@@ -6,6 +6,7 @@ import aiofiles
 
 from vesna.providers.dict_provider import DictProvider, DataDictModel
 
+
 class ProviderHJSON(DictProvider):
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
@@ -28,11 +29,12 @@ class ProviderHJSON(DictProvider):
         if not path:
             raise ValueError(f"Path cannot be None | Path: {path}")
 
-        data_to_save = self._storage.model_dump(exclude={'path'})
+        data_to_save = self._storage.model_dump(exclude={"path"})
 
         async with aiofiles.open(path, "wb") as f:
             hjson_string = hjson.dumps(data_to_save)
             await f.write(hjson_string.encode("utf-8"))
+
 
 class HJSONDataModel(DataDictModel):
     pass

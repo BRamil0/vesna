@@ -5,6 +5,7 @@ import aiofiles
 
 from fluent.runtime import FluentBundle, FluentResource
 
+
 class FluentProvider:
     def __init__(self) -> None:
         self._storage: FluentModel | None = None
@@ -57,10 +58,7 @@ class FluentProvider:
             bundle = FluentBundle([locale_code])
             bundle.add_resource(resource)
 
-            self._storage = FluentModel(
-                data=bundle,
-                path=path
-            )
+            self._storage = FluentModel(data=bundle, path=path)
 
     async def save_file(self, path: pathlib.Path | None = None) -> None:
         raise NotImplementedError("Fluent provider currently does not support runtime saving.")
@@ -70,6 +68,7 @@ class FluentProvider:
 
     def is_empty(self) -> bool:
         return self._storage is None
+
 
 class FluentModel(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
@@ -81,6 +80,6 @@ class FluentModel(pydantic.BaseModel):
 
     @property
     def locale_code(self) -> str | None:
-        if self.data and hasattr(self.data, 'locales') and self.data.locales:
+        if self.data and hasattr(self.data, "locales") and self.data.locales:
             return self.data.locales[0]
         return None

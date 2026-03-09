@@ -3,9 +3,12 @@ import pathlib
 from vesna.meta.meta_default_object import MetaDefaultObject
 from vesna.providers import ProviderProtocol
 
+
 class Vesna(metaclass=MetaDefaultObject):
     @MetaDefaultObject.meta_inject(auto_creation=True)
-    def __init__(self, default_locale: str | None = None, default_path: pathlib.Path | str | None = None) -> None:
+    def __init__(
+        self, default_locale: str | None = None, default_path: pathlib.Path | str | None = None
+    ) -> None:
 
         self.providers: dict[str, ProviderProtocol] = {}
         self.default_locale: str | None = default_locale
@@ -23,9 +26,12 @@ class Vesna(metaclass=MetaDefaultObject):
 
         return path
 
-    async def load_file(self, provider: ProviderProtocol | None = None,
-                        locale_code: str | None = None,
-                        path: pathlib.Path | str | None = None) -> None:
+    async def load_file(
+        self,
+        provider: ProviderProtocol | None = None,
+        locale_code: str | None = None,
+        path: pathlib.Path | str | None = None,
+    ) -> None:
         locale_code = locale_code or self.default_locale
         if not locale_code:
             raise RuntimeError("Locale code is None")
@@ -47,7 +53,9 @@ class Vesna(metaclass=MetaDefaultObject):
 
         await provider.load_file(path, locale_code)
 
-    async def save_file(self, locale_code: str | None = None, path: pathlib.Path | str | None = None) -> None:
+    async def save_file(
+        self, locale_code: str | None = None, path: pathlib.Path | str | None = None
+    ) -> None:
         locale_code = locale_code or self.default_locale
         if not locale_code:
             raise RuntimeError("Locale code is None")
@@ -83,6 +91,7 @@ class Vesna(metaclass=MetaDefaultObject):
                 raise KeyError(f"Locale '{locale_code}' not loaded")
             return key
         return provider.set(key, value)
+
 
 vesna: Vesna = Vesna()
 

@@ -6,6 +6,7 @@ from babel import Locale
 
 from vesna.meta.meta_default_object import MetaDefaultObject
 
+
 class BabelHandler(metaclass=MetaDefaultObject):
     def __init__(self):
         self._locale_cache: dict[str, Locale] = {}
@@ -14,7 +15,13 @@ class BabelHandler(metaclass=MetaDefaultObject):
         if locale_code not in self._locale_cache:
             self._locale_cache[locale_code] = Locale.parse(locale_code)
         return self._locale_cache[locale_code]
-    def format_date(self, date: datetime.date | datetime.datetime | datetime.time, locale_code: str, format: str ='medium'):
+
+    def format_date(
+        self,
+        date: datetime.date | datetime.datetime | datetime.time,
+        locale_code: str,
+        format: str = "medium",
+    ):
         return babel.dates.format_date(date, format=format, locale=locale_code)
 
     def format_currency(self, amount: str, currency: str, locale_code: str) -> str:

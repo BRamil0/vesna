@@ -6,6 +6,7 @@ import aiofiles
 
 from vesna.providers.dict_provider import DictProvider, DataDictModel
 
+
 class ProviderJSON(DictProvider):
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
@@ -32,6 +33,7 @@ class ProviderJSON(DictProvider):
 
         async with aiofiles.open(path, "w", encoding="utf-8") as f:
             await f.write(self._storage.model_dump_json())
+
 
 class JSONDataModel(DataDictModel):
     pass

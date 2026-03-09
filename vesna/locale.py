@@ -15,6 +15,7 @@ from vesna.vesna import Vesna
 
 from vesna.meta.meta_cache import MetaCache
 
+
 class Locale(metaclass=MetaCache):
     @Vesna.meta_inject(auto_creation=True)
     def __init__(self, locale_code: str, vesna: Vesna, babel_handler: BabelHandler) -> None:
@@ -33,11 +34,14 @@ class Locale(metaclass=MetaCache):
         return text.format(*args, **kwargs) if kwargs or args else text
 
     if SUPPORT_BABEL:
+
         @property
         def babel(self) -> babel.Locale:
             return self.babel_handler.get_locale(self.locale_code)
 
-        def date(self, value: datetime.date | datetime.datetime | datetime.time, format: str = 'medium') -> str:
+        def date(
+            self, value: datetime.date | datetime.datetime | datetime.time, format: str = "medium"
+        ) -> str:
             return self.babel_handler.format_date(value, self.locale_code, format)
 
         def plural(self, key: str, count: int, **kwargs) -> str:

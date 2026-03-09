@@ -3,6 +3,7 @@ import typing
 
 from typing import Protocol
 
+
 class ProviderProtocol(Protocol):
     @classmethod
     async def from_file(cls, path: pathlib.Path, locale_code: str) -> ProviderProtocol:
@@ -32,9 +33,10 @@ class ProviderProtocol(Protocol):
 
     def is_empty(self) -> bool: ...
 
+
 class ModelDataProtocol(Protocol):
     data: typing.Any
-    locale_code: str | None # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
+    locale_code: str | None  # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
 
     path: pathlib.Path | None = None
 

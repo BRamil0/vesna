@@ -21,6 +21,15 @@ wheels = [
 ]
 
 [[package]]
+name = "attrs"
+version = "25.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6b/5c/685e6633917e101e5dcb62b9dd76946cbb57c26e133bae9e0cd36033c0a9/attrs-25.4.0.tar.gz", hash = "sha256:16d5969b87f0859ef33a48b35d55ac1be6e42ae49d5e853b597db70c35c57e11", size = 934251, upload-time = "2025-10-06T13:54:44.725Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3a/2a/7cc015f5b9f5db42b7d48157e23356022889fc354a2813c15934b7cb5c0e/attrs-25.4.0-py3-none-any.whl", hash = "sha256:adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373", size = 67615, upload-time = "2025-10-06T13:54:43.17Z" },
+]
+
+[[package]]
 name = "babel"
 version = "2.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -36,6 +45,34 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93a6792e2acffb9d9d5cb0a5cfd8802644b7b1c9a02e4/colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44", size = 27697, upload-time = "2022-10-25T02:36:22.414Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", size = 25335, upload-time = "2022-10-25T02:36:20.889Z" },
+]
+
+[[package]]
+name = "fluent-runtime"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "attrs" },
+    { name = "babel" },
+    { name = "fluent-syntax" },
+    { name = "pytz" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/dc/54/94bbd857443565a5776027165fe1e2634d836681d7d9c8992a2fd0ce8302/fluent.runtime-0.4.0.tar.gz", hash = "sha256:cb5ef96a58a3f67acaaca046d1201d202a1ebf2823e5e664370f359bae20574d", size = 17591, upload-time = "2023-03-16T11:10:35.165Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/89/a19b0bdfc74977b44aca2ad2e0600fd89c778184fcbb7fc44ba1002cc7b5/fluent.runtime-0.4.0-py2.py3-none-any.whl", hash = "sha256:51fd02582c2363e1106d7051642967a1b7f406dd9c317bd4600a73ede40c5146", size = 15627, upload-time = "2023-03-16T11:10:33.43Z" },
+]
+
+[[package]]
+name = "fluent-syntax"
+version = "0.19.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/51/52/de75f2faf499ed5a089acff2ab8bda5fc3b8db8a3f1615428ef9ccbf1917/fluent.syntax-0.19.0.tar.gz", hash = "sha256:920326d7f46864b9758f0044e9968e3112198bc826acee16ddd8f11d359004fd", size = 15039, upload-time = "2023-03-16T11:03:24.023Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/54/28/475734afb670bf7932caa1828183a4687cac51111950b9fb633c4f976afc/fluent.syntax-0.19.0-py2.py3-none-any.whl", hash = "sha256:b352b3475fac6c6ed5f06527921f432aac073d764445508ee5218aeccc7cc5c4", size = 16432, upload-time = "2023-03-16T11:03:21.934Z" },
 ]
 
 [[package]]
@@ -175,6 +212,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pytz"
+version = "2026.1.post1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/56/db/b8721d71d945e6a8ac63c0fc900b2067181dbb50805958d4d4661cf7d277/pytz-2026.1.post1.tar.gz", hash = "sha256:3378dde6a0c3d26719182142c56e60c7f9af7e968076f31aae569d72a0358ee1", size = 321088, upload-time = "2026-03-03T07:47:50.683Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/10/99/781fe0c827be2742bcc775efefccb3b048a3a9c6ce9aec0cbf4a101677e5/pytz-2026.1.post1-py2.py3-none-any.whl", hash = "sha256:f2fd16142fda348286a75e1a524be810bb05d444e5a081f37f7affc635035f7a", size = 510489, upload-time = "2026-03-03T07:47:49.167Z" },
+]
+
+[[package]]
 name = "rtoml"
 version = "0.13.0"
 source = { registry = "https://pypi.org/simple" }
@@ -237,6 +283,7 @@ dependencies = [
 [package.optional-dependencies]
 toml = [
     { name = "babel" },
+    { name = "fluent-runtime" },
     { name = "hjson" },
     { name = "json5" },
     { name = "pytest" },
@@ -249,6 +296,7 @@ toml = [
 requires-dist = [
     { name = "aiofiles" },
     { name = "babel", marker = "extra == 'toml'" },
+    { name = "fluent-runtime", marker = "extra == 'toml'" },
     { name = "hjson", marker = "extra == 'toml'" },
     { name = "json5", marker = "extra == 'toml'" },
     { name = "pydantic" },

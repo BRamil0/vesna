@@ -1,10 +1,12 @@
 try:
     import json5
+
     pyjson5 = None
 
     json5lib = json5
 except ImportError:
     import pyjson5
+
     json5 = None
 
     json5lib = pyjson5
@@ -16,6 +18,7 @@ import pydantic
 import aiofiles
 
 from vesna.providers.dict_provider import DictProvider, DataDictModel
+
 
 class ProviderJSON5(DictProvider):
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
@@ -39,11 +42,12 @@ class ProviderJSON5(DictProvider):
         if not path:
             raise ValueError(f"Path cannot be None | Path: {path}")
 
-        data_to_save = self._storage.model_dump(exclude={'path'})
+        data_to_save = self._storage.model_dump(exclude={"path"})
 
         async with aiofiles.open(path, "wb") as f:
             json5_string = json5lib.dumps(data_to_save)
             await f.write(json5_string.encode("utf-8"))
+
 
 class JSON5DataModel(DataDictModel):
     pass

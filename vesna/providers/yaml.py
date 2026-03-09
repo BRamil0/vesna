@@ -8,6 +8,7 @@ import aiofiles
 
 from vesna.providers.dict_provider import DictProvider, DataDictModel
 
+
 class ProviderYAML(DictProvider):
     def __init__(self, type: str = "safe"):
         super().__init__()
@@ -34,7 +35,7 @@ class ProviderYAML(DictProvider):
         if not path:
             raise ValueError(f"Path cannot be None | Path: {path}")
 
-        data_to_save = self._storage.model_dump(exclude={'path'})
+        data_to_save = self._storage.model_dump(exclude={"path"})
 
         buf = io.BytesIO()
 
@@ -42,6 +43,7 @@ class ProviderYAML(DictProvider):
 
         async with aiofiles.open(path, "wb") as f:
             await f.write(buf.getvalue())
+
 
 class YAMLDataModel(DataDictModel):
     pass
