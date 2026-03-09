@@ -2,6 +2,7 @@ import datetime
 
 try:
     import babel
+
     from vesna.babel_handler import BabelHandler
 
     SUPPORT_BABEL = True
@@ -11,9 +12,8 @@ except ImportError:
 
     SUPPORT_BABEL = False
 
-from vesna.vesna import Vesna
-
 from vesna.meta.meta_cache import MetaCache
+from vesna.vesna import Vesna
 
 
 class Locale(metaclass=MetaCache):
@@ -27,11 +27,14 @@ class Locale(metaclass=MetaCache):
         return self.vesna.get_text(key, self.locale_code)
 
     def __call__(self, key: str, *args, **kwargs) -> str:
-        return self.get(key, *args, **kwargs)
+        return self.format(key, *args, **kwargs)
 
-    def get(self, key: str, *args, **kwargs) -> str:
+    def format(self, key: str, *args, **kwargs) -> str:
         text = self.vesna.get_text(key, self.locale_code)
-        return text.format(*args, **kwargs) if kwargs or args else text
+        return text.format(*args, **kwargs) if (args or kwargs) else text
+
+    def get(self, key: str, default: str = None) -> str:
+        return self.vesna.get_text(key, self.locale_code)
 
     if SUPPORT_BABEL:
 

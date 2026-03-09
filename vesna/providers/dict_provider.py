@@ -25,11 +25,7 @@ class DictProvider(ABC):
             else:
                 return default
 
-        text = str(data) if data is not None else default
-        if kwargs:
-            text.format(**kwargs)
-
-        return text
+        return str(data) if data is not None else default
 
     def set(self, key: str, value: str) -> str:
         self._storage.data[key] = value

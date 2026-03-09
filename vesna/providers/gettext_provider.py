@@ -26,20 +26,10 @@ class GettextProvider:
 
         if message and message.string:
             if isinstance(message.string, str):
-                text = message.string
-
-                if kwargs:
-                    text.format(**kwargs)
-
-                return text
+                return message.string
 
             elif isinstance(message.string, tuple):
-                text = message.string[0]
-
-                if kwargs:
-                    text.format(**kwargs)
-
-                return text
+                return message.string[0]
 
         return default
 
