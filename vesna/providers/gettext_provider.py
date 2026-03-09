@@ -18,7 +18,7 @@ class GettextProvider:
     def __setitem__(self, key: str, value: str) -> str:
         return self.set(key, value)
 
-    def get(self, key: str, default: str | None = None) -> str:
+    def get(self, key: str, default: str | None = None, **kwargs) -> str:
         if not self._storage:
             return default
 
@@ -26,9 +26,20 @@ class GettextProvider:
 
         if message and message.string:
             if isinstance(message.string, str):
-                return message.string
+                text = message.string
+
+                if kwargs:
+                    text.format(**kwargs)
+
+                return text
+
             elif isinstance(message.string, tuple):
-                return message.string[0]
+                text = message.string[0]
+
+                if kwargs:
+                    text.format(**kwargs)
+
+                return text
 
         return default
 
@@ -47,9 +58,7 @@ class GettextProvider:
         return self._storage
 
     def get_locale_code(self) -> str | None:
-        if self._storage and self._storage.data.locale:
-            return str(self._storage.data.locale)
-        return None
+        return self._storage.locale_code if self._storage else None
 
     def get_file_path(self) -> pathlib.Path | None:
         return self._storage.path if self._storage else None

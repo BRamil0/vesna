@@ -39,6 +39,7 @@ toml = [
     "ruamel.yaml",
     "json5",
     "hjson",
+    "fluent.runtime",
 ]
 
 [project.urls]

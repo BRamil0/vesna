@@ -14,7 +14,7 @@ class DictProvider(ABC):
     def __setitem__(self, key: str, value: str) -> str:
         return self.set(key, value)
 
-    def get(self, key: str, default: str | None = None) -> str:
+    def get(self, key: str, default: str | None = None, **kwargs) -> str:
         parts = key.split('.')
         data = self._storage.data
 
@@ -24,7 +24,11 @@ class DictProvider(ABC):
             else:
                 return default
 
-        return str(data) if data is not None else default
+        text = str(data) if data is not None else default
+        if kwargs:
+            text.format(**kwargs)
+
+        return text
 
     def set(self, key: str, value: str) -> str:
         self._storage.data[key] = value

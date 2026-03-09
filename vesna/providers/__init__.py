@@ -37,3 +37,9 @@ try:
     __all__.append("GettextProvider")
 except ImportError:
     pass
+
+try:
+    from .fluent_provider import FluentProvider
+    __all__.append("FluentProvider")
+except ImportError:
+    pass
