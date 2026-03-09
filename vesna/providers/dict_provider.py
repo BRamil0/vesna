@@ -30,6 +30,15 @@ class DictProvider(ABC):
         self._storage.data[key] = value
         return value
 
+    def get_storage(self) -> DataDictModel:
+        return self._storage
+
+    def get_locale_code(self) -> str | None:
+        return self._storage.locale_code
+
+    def get_file_path(self) -> pathlib.Path | None:
+        return self._storage.path
+
     @abstractmethod
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         pass
@@ -37,13 +46,6 @@ class DictProvider(ABC):
     @abstractmethod
     async def save_file(self, path: pathlib.Path | None = None) -> None:
         pass
-
-
-    def get_locale_code(self) -> str | None:
-        return self._storage.locale_code
-
-    def get_file_path(self) -> pathlib.Path | None:
-        return self._storage.path
 
     async def clean(self) -> None:
         self._storage = None

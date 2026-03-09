@@ -42,6 +42,17 @@ class GettextProvider:
 
         return value
 
+    def get_storage(self) -> GettextModel:
+        return self._storage
+
+    def get_locale_code(self) -> str | None:
+        if self._storage and self._storage.data.locale:
+            return str(self._storage.data.locale)
+        return None
+
+    def get_file_path(self) -> pathlib.Path | None:
+        return self._storage.path if self._storage else None
+
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 
@@ -65,14 +76,6 @@ class GettextProvider:
 
         async with aiofiles.open(target_path, "wb") as f:
             await f.write(buf.getvalue())
-
-    def get_locale_code(self) -> str | None:
-        if self._storage and self._storage.data.locale:
-            return str(self._storage.data.locale)
-        return None
-
-    def get_file_path(self) -> pathlib.Path | None:
-        return self._storage.path if self._storage else None
 
     async def clean(self) -> None:
         self._storage = None

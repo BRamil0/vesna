@@ -1,6 +1,6 @@
-from .protocol import ProviderProtocol
+from .protocol import ProviderProtocol, ModelDataProtocol
 
-__all__ = ["ProviderProtocol"]
+__all__ = ["ProviderProtocol", "ModelDataProtocol"]
 
 try:
     from .yaml import ProviderYAML

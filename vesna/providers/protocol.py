@@ -1,4 +1,5 @@
 import pathlib
+import typing
 
 from typing import Protocol
 
@@ -17,6 +18,8 @@ class ProviderProtocol(Protocol):
 
     def set(self, key: str, value: str) -> str: ...
 
+    def get_storage(self) -> ModelDataProtocol | typing.Any: ...
+
     def get_locale_code(self) -> str | None: ...
 
     def get_file_path(self) -> pathlib.Path | None: ...
@@ -28,3 +31,11 @@ class ProviderProtocol(Protocol):
     async def clean(self) -> None: ...
 
     def is_empty(self) -> bool: ...
+
+class ModelDataProtocol(Protocol):
+    data: typing.Any
+    locale_code: str | None # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
+
+    path: pathlib.Path | None = None
+
+    version: str
