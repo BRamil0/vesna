@@ -4,6 +4,8 @@ from vesna import providers
 
 @pytest.mark.parametrize("provider_cls, filename", [
     (providers.ProviderJSON, "uk.json"),
+    (providers.ProviderJSON5, "uk.json5"),
+    (providers.ProviderHJSON, "uk.hjson"),
     (providers.ProviderYAML, "uk.yaml"),
     (providers.ProviderTOML, "uk.toml"),
 ])

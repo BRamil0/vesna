@@ -37,6 +37,8 @@ toml = [
     "pytest-asyncio",
     "rtoml",
     "ruamel.yaml",
+    "json5",
+    "hjson",
 ]
 
 [project.urls]
