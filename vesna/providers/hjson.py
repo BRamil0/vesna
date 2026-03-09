@@ -31,8 +31,8 @@ class ProviderHJSON(DictProvider):
         data_to_save = self._storage.model_dump(exclude={'path'})
 
         async with aiofiles.open(path, "wb") as f:
-            toml_string = hjson.dumps(data_to_save)
-            await f.write(toml_string.encode("utf-8"))
+            hjson_string = hjson.dumps(data_to_save)
+            await f.write(hjson_string.encode("utf-8"))
 
 class HJSONDataModel(DataDictModel):
     pass

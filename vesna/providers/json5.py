@@ -42,8 +42,8 @@ class ProviderJSON5(DictProvider):
         data_to_save = self._storage.model_dump(exclude={'path'})
 
         async with aiofiles.open(path, "wb") as f:
-            toml_string = json5lib.dumps(data_to_save)
-            await f.write(toml_string.encode("utf-8"))
+            json5_string = json5lib.dumps(data_to_save)
+            await f.write(json5_string.encode("utf-8"))
 
 class JSON5DataModel(DataDictModel):
     pass
