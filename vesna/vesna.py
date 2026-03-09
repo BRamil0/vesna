@@ -65,12 +65,12 @@ class Vesna(metaclass=MetaDefaultObject):
 
         await self.providers[locale_code].save_file(path)
 
-    def get_text(self, key: str, locale_code: str, is_exception: bool = False) -> str:
+    def get_text(self, key: str, locale_code: str, is_exception: bool = False, **kwargs) -> str:
         try:
             provider = self.providers.get(locale_code)
             if not provider:
                 raise KeyError(f"Locale '{locale_code}' not loaded")
-            value = provider.get(key, default=None)
+            value = provider.get(key, default=None, **kwargs)
 
             if value is None:
                 raise KeyError(f"Key '{key}' missing")
@@ -78,7 +78,7 @@ class Vesna(metaclass=MetaDefaultObject):
             return value
         except KeyError as e:
             if self.default_locale and locale_code != self.default_locale:
-                return self.get_text(key, self.default_locale, is_exception)
+                return self.get_text(key, self.default_locale, is_exception, **kwargs)
 
             if is_exception:
                 raise KeyError(f"Key '{key}' not found in '{locale_code}'") from e
