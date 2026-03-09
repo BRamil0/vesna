@@ -31,3 +31,9 @@ try:
     __all__.append("ProviderTOML")
 except ImportError:
     pass
+
+try:
+    from .gettext_provider import GettextProvider
+    __all__.append("GettextProvider")
+except ImportError:
+    pass
