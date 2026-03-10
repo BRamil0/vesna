@@ -22,11 +22,8 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: uv pip install --system -e ".[all]"
+      - name: Install project
+        run: uv sync --all-extras
 
       - name: Run Ruff Linter
         run: uv run ruff check .
