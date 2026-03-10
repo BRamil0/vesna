@@ -33,3 +33,20 @@ jobs:
 
       - name: Run Pytest
         run: uv run pytest -v
+
+  pypi-publish:
+    name: Upload release to PyPI
+    needs: test-and-lint
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    environment:
+      name: pypi
+      url: https://pypi.org/p/vesna
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: uv build
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
