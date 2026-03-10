@@ -31,7 +31,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-toml = [
+all = [
     "babel",
     "pytest",
     "pytest-asyncio",
