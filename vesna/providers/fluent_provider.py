@@ -11,8 +11,9 @@ class FluentProvider:
     does not support data recording and modification!
     """
 
-    def __init__(self) -> None:
+    def __init__(self, use_isolating: bool = False) -> None:
         self._storage: FluentModel | None = None
+        self.use_isolating = use_isolating
 
     def __getitem__(self, key: str) -> str:
         return self.get(key)
@@ -66,7 +67,7 @@ class FluentProvider:
 
             resource = FluentResource(content)
 
-            bundle = FluentBundle([locale_code])
+            bundle = FluentBundle([locale_code], use_isolating=self.use_isolating)
             bundle.add_resource(resource)
 
             self._storage = FluentModel(data=bundle, path=path)
