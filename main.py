@@ -8,7 +8,7 @@ async def main():
         vesna.providers.ProviderJSON(), "uk", "tests/localisation/{locale_code}.json"
     )
 
-    l = vesna.Locale("uk")
+    l = vesna.Locale("uk")  # noqa: E741
     print(l["vesna"])
     print(l("hello", l.get("world")))
 
