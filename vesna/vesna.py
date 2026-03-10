@@ -5,6 +5,10 @@ from vesna.providers import ProviderProtocol
 
 
 class Vesna(metaclass=MetaDefaultObject):
+    """
+    Provides a basic API for working with localisation, and also acts as a provider manager.
+    """
+
     @MetaDefaultObject.meta_inject(auto_creation=True)
     def __init__(
         self, default_locale: str | None = None, default_path: pathlib.Path | str | None = None
@@ -66,6 +70,19 @@ class Vesna(metaclass=MetaDefaultObject):
         await self.providers[locale_code].save_file(path)
 
     def get_text(self, key: str, locale_code: str, is_exception: bool = False, **kwargs) -> str:
+        """
+        Searches for the value by key and language code.
+        If there is no localisation code, it will try to search in default_locale.
+        If there is no default_locale either, it will return an exception if is_exception is set,
+        otherwise it will return the key.
+        :param key: Key
+        :param locale_code: Localisation code
+        :param is_exception: If true, throws an exception; otherwise, returns the key.
+        :param kwargs: Formatting arguments for the provider may not be supported by all providers.
+        However, some providers (e.g. fluent) only support this type of formatting.
+        :return: String
+        """
+
         try:
             provider = self.providers.get(locale_code)
             if not provider:
@@ -85,6 +102,16 @@ class Vesna(metaclass=MetaDefaultObject):
             return key
 
     def set_text(self, key: str, value: str, locale_code: str, is_exception: bool = False) -> str:
+        """
+        Sets the value by key. If there is no provider for the required localisation,
+        it throws an exception if is_exception is true.
+        :param key: Key
+        :param value: Value
+        :param locale_code: Localisation code
+        :param is_exception: If true, throws an exception; otherwise, returns the key.
+        :return: Value
+        """
+
         provider = self.providers.get(locale_code)
         if not provider:
             if is_exception:

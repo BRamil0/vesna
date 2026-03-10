@@ -5,6 +5,10 @@ from functools import wraps
 
 
 class MetaDefaultObject(type):
+    """
+    A metaclass that provides basic DI tools can simulate global objects.
+    """
+
     _meta_objects: dict[type, object] = weakref.WeakValueDictionary()
 
     def __init__(cls, name, bases, dct):

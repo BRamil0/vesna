@@ -8,6 +8,10 @@ from vesna.meta.meta_default_object import MetaDefaultObject
 
 
 class BabelHandler(metaclass=MetaDefaultObject):
+    """
+    Provides basic tools for working with Babel.
+    """
+
     def __init__(self):
         self._locale_cache: dict[str, Locale] = {}
 

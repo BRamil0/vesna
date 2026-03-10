@@ -17,6 +17,10 @@ from vesna.vesna import Vesna
 
 
 class Locale(metaclass=MetaCache):
+    """
+    Provides a basic API for working with a single localisation.
+    """
+
     @Vesna.meta_inject(auto_creation=True)
     def __init__(self, locale_code: str, vesna: Vesna, babel_handler: BabelHandler) -> None:
         self.locale_code: str = locale_code

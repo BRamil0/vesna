@@ -6,6 +6,11 @@ import pydantic
 
 
 class DictProvider(ABC):
+    """
+    Almost complete abstract implementation of the provider protocol for formats that can be easily
+    converted into a dictionary. Requires the implementation of IO methods.
+    """
+
     def __init__(self) -> None:
         self._storage: DataDictModel | None = None
 

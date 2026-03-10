@@ -9,6 +9,10 @@ from babel.messages.pofile import read_po, write_po
 
 
 class GettextProvider:
+    """
+    Implementation of the protocol for the GNU Gettext format.
+    """
+
     def __init__(self) -> None:
         self._storage: GettextModel | None = None
 
@@ -54,6 +58,14 @@ class GettextProvider:
         return self._storage.path if self._storage else None
 
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
+        """
+        Supports loading po and mo files
+
+        :param path: File path
+        :param locale_code: Locale code
+        :return: None
+        """
+
         await self.clean()
 
         if path.suffix == ".mo":
@@ -74,6 +86,14 @@ class GettextProvider:
         self._storage = GettextModel(data=catalog, path=path)
 
     async def save_file(self, path: pathlib.Path | None = None) -> None:
+        """
+        Supports saving in po format
+
+        :param path: The path to the file to be saved;
+        if not specified, it is saved in the same folder from which it was loaded.
+        :return: None
+        """
+
         target_path = path or (self._storage.path if self._storage else None)
         if not target_path or not self._storage:
             raise ValueError("Path or storage is empty")
@@ -85,6 +105,14 @@ class GettextProvider:
             await f.write(buf.getvalue())
 
     async def compile_mo(self, path: pathlib.Path | None = None) -> None:
+        """
+        Supports compile in mo format
+
+        :param path: The path to the file to be saved;
+        if not specified, it is saved in the same folder from which it was loaded.
+        :return: None
+        """
+
         if not self._storage:
             raise RuntimeError("Storage is empty, nothing to compile")
 

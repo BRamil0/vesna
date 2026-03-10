@@ -1,16 +1,23 @@
 import io
-
-from ruamel.yaml import YAML
 import pathlib
 
-import pydantic
 import aiofiles
+import pydantic
+from ruamel.yaml import YAML
 
-from vesna.providers.dict_provider import DictProvider, DataDictModel
+from vesna.providers.dict_provider import DataDictModel, DictProvider
 
 
 class ProviderYAML(DictProvider):
+    """
+    Implementation of IO methods for DictProvider to support the YAML format.
+    """
+
     def __init__(self, type: str = "safe"):
+        """
+        Initializes the class
+        :param type: Passes data to the internal YAML parser, see the YAML.__init__ documentation.`.
+        """
         super().__init__()
         self.yaml = YAML(typ=type)
 

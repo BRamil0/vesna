@@ -1,3 +1,8 @@
+import pathlib
+
+import aiofiles
+import pydantic
+
 try:
     import json5
 
@@ -11,16 +16,15 @@ except ImportError:
 
     json5lib = pyjson5
 
-
-import pathlib
-
-import pydantic
-import aiofiles
-
-from vesna.providers.dict_provider import DictProvider, DataDictModel
+from vesna.providers.dict_provider import DataDictModel, DictProvider
 
 
 class ProviderJSON5(DictProvider):
+    """
+    Implementation of IO methods for DictProvider to support the JSON5 format.
+    Supports json5 or pyjson5 for the backend.
+    """
+
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 

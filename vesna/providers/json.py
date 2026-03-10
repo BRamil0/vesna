@@ -1,13 +1,18 @@
 import pathlib
 
+import aiofiles
 import pydantic
 from pydantic_core import from_json
-import aiofiles
 
-from vesna.providers.dict_provider import DictProvider, DataDictModel
+from vesna.providers.dict_provider import DataDictModel, DictProvider
 
 
 class ProviderJSON(DictProvider):
+    """
+    Implementation of IO methods for DictProvider to support the JSON format.
+    Uses pydantic_core as a backend.
+    """
+
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 

@@ -1,12 +1,16 @@
 import pathlib
 
-import pydantic
 import aiofiles
-
+import pydantic
 from fluent.runtime import FluentBundle, FluentResource
 
 
 class FluentProvider:
+    """
+    Implementation of the protocol for the fluent format,
+    does not support data recording and modification!
+    """
+
     def __init__(self) -> None:
         self._storage: FluentModel | None = None
 
@@ -17,6 +21,13 @@ class FluentProvider:
         return self.set(key, value)
 
     def get(self, key: str, default: str | None = None, **kwargs) -> str:
+        """
+        Returns the value by key, formats if kwargs is passed.
+        :param key: Key
+        :param default: If there is no key, the default will be returned.
+        :param kwargs: Formatting arguments (if any).
+        :return: Formatted string
+        """
         if not self._storage:
             return default
 
@@ -31,7 +42,7 @@ class FluentProvider:
 
         formatted_string, errors = bundle.format_pattern(message.value, kwargs)
         if errors:
-            RuntimeError(f"{errors}")
+            raise RuntimeError(f"An error occurred while executing format_pattern: {errors}")
 
         return formatted_string
 

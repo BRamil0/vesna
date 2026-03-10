@@ -1,13 +1,17 @@
-import hjson
 import pathlib
 
-import pydantic
 import aiofiles
+import hjson
+import pydantic
 
-from vesna.providers.dict_provider import DictProvider, DataDictModel
+from vesna.providers.dict_provider import DataDictModel, DictProvider
 
 
 class ProviderHJSON(DictProvider):
+    """
+    Implementation of IO methods for DictProvider to support the HJSON format.
+    """
+
     async def load_file(self, path: pathlib.Path, locale_code: str) -> None:
         await self.clean()
 

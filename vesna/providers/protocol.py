@@ -1,12 +1,22 @@
 import pathlib
 import typing
-
 from typing import Protocol
 
 
 class ProviderProtocol(Protocol):
+    """
+    Provides a basic protocol for providers that will be compatible with Vesna.
+    """
+
     @classmethod
     async def from_file(cls, path: pathlib.Path, locale_code: str) -> ProviderProtocol:
+        """
+        Allows you to quickly create a new class instance and immediately load the localisation.
+        :param path: Path
+        :param locale_code: Localisation code
+        :return: New instance
+        """
+
         instance = cls()
         await instance.load_file(path, locale_code)
         return instance
@@ -35,6 +45,10 @@ class ProviderProtocol(Protocol):
 
 
 class ModelDataProtocol(Protocol):
+    """
+    Provides a base protocol for a model that will be compatible with ProviderProtocol.
+    """
+
     data: typing.Any
     locale_code: str | None  # ISO 15897 (ISO 639-1 + ISO 3166-1 alpha-2)
 
