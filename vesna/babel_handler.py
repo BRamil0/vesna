@@ -34,3 +34,6 @@ class BabelHandler(metaclass=MetaDefaultObject):
     def get_plural_form(self, count: str, locale_code: str) -> str:
         locale = self.get_locale(locale_code)
         return locale.plural_form(count)
+
+    def format_decimal(self, value: float | int, locale_code: str) -> str:
+        return babel.numbers.format_decimal(value, locale=locale_code)
