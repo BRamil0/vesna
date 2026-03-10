@@ -25,7 +25,7 @@ class DictProvider(ABC):
         data = self._storage.data
 
         for part in parts:
-            if isinstance(data, dict):
+            if isinstance(data, dict) and part in data:
                 data = data.get(part)
             else:
                 return default
