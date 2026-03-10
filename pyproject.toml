@@ -40,6 +40,7 @@ all = [
     "json5",
     "hjson",
     "fluent.runtime",
+    "ruff",
 ]
 
 [project.urls]
