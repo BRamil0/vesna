@@ -281,7 +281,7 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-toml = [
+all = [
     { name = "babel" },
     { name = "fluent-runtime" },
     { name = "hjson" },
@@ -295,14 +295,14 @@ toml = [
 [package.metadata]
 requires-dist = [
     { name = "aiofiles" },
-    { name = "babel", marker = "extra == 'toml'" },
-    { name = "fluent-runtime", marker = "extra == 'toml'" },
-    { name = "hjson", marker = "extra == 'toml'" },
-    { name = "json5", marker = "extra == 'toml'" },
+    { name = "babel", marker = "extra == 'all'" },
+    { name = "fluent-runtime", marker = "extra == 'all'" },
+    { name = "hjson", marker = "extra == 'all'" },
+    { name = "json5", marker = "extra == 'all'" },
     { name = "pydantic" },
-    { name = "pytest", marker = "extra == 'toml'" },
-    { name = "pytest-asyncio", marker = "extra == 'toml'" },
-    { name = "rtoml", marker = "extra == 'toml'" },
-    { name = "ruamel-yaml", marker = "extra == 'toml'" },
+    { name = "pytest", marker = "extra == 'all'" },
+    { name = "pytest-asyncio", marker = "extra == 'all'" },
+    { name = "rtoml", marker = "extra == 'all'" },
+    { name = "ruamel-yaml", marker = "extra == 'all'" },
 ]
-provides-extras = ["toml"]
+provides-extras = ["all"]
