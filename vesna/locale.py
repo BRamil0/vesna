@@ -38,7 +38,7 @@ class Locale(metaclass=MetaCache):
         return text.format(*args, **kwargs) if (args or kwargs) else text
 
     def get(self, key: str, default: str = None) -> str:
-        return self.vesna.get_text(key, self.locale_code)
+        return self.vesna.get_text(key, self.locale_code, default)
 
     if SUPPORT_BABEL:
 
