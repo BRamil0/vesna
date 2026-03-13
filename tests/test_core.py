@@ -9,7 +9,7 @@ async def setup_i18n():
         await vesna.i18n.load_file(
             vesna.providers.ProviderJSON(), "uk", "tests/localisation/{locale_code}.json"
         )
-    except (RuntimeError, KeyError, FileNotFoundError):
+    except RuntimeError, KeyError, FileNotFoundError:
         pytest.fail("Failed to load translation file")
 
 
