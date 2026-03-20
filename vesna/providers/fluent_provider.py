@@ -3,6 +3,7 @@ import pathlib
 import aiofiles
 import pydantic
 from fluent.runtime import FluentBundle, FluentResource
+from fluent.runtime.types import FluentNone
 
 
 class FluentProvider:
@@ -11,17 +12,30 @@ class FluentProvider:
     does not support data recording and modification!
     """
 
+    @classmethod
+    async def from_file(cls, path: pathlib.Path, locale_code: str) -> FluentProvider:
+        """
+        Allows you to quickly create a new class instance and immediately load the localisation.
+        :param path: Path
+        :param locale_code: Localisation code
+        :return: New instance
+        """
+
+        instance = cls()
+        await instance.load_file(path, locale_code)
+        return instance
+
     def __init__(self, use_isolating: bool = False) -> None:
         self._storage: FluentModel | None = None
         self.use_isolating = use_isolating
 
-    def __getitem__(self, key: str) -> str:
+    def __getitem__(self, key: str) -> str | None | FluentNone:
         return self.get(key)
 
     def __setitem__(self, key: str, value: str) -> str:
         return self.set(key, value)
 
-    def get(self, key: str, default: str | None = None, **kwargs) -> str:
+    def get(self, key: str, default: str | None = None, **kwargs) -> str | None | FluentNone:
         """
         Returns the value by key, formats if kwargs is passed.
         :param key: Key
@@ -51,6 +65,8 @@ class FluentProvider:
         raise NotImplementedError("Fluent provider currently does not support runtime editing.")
 
     def get_storage(self) -> FluentModel:
+        if self._storage is None:
+            raise ValueError("The storage is None")
         return self._storage
 
     def get_locale_code(self) -> str | None:

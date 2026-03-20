@@ -47,7 +47,7 @@ async def test_locale_babel_formatting(temp_json_locale):
 
     locale = Locale("uk", vesna=i18n)
 
-    dt = datetime.date(2026, 3, 10)
+    dt = datetime.datetime(2026, 3, 10)
     formatted_date = locale.date(dt)
     assert "2026" in formatted_date
 

@@ -37,7 +37,7 @@ async def test_load():
 
 
 async def test_save():
-    with pytest.raises(AttributeError):
+    with pytest.raises(FileNotFoundError):
         await vesna.i18n.save_file("en")
 
     with pytest.raises(RuntimeError):

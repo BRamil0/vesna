@@ -4,15 +4,15 @@ import aiofiles
 import pydantic
 
 try:
-    import json5
+    import json5  # ty:ignore[unresolved-import, unused-ignore-comment, unused-ignore-comment]
 
-    pyjson5 = None
+    pyjson5 = None  # ty:ignore[unresolved-import, unused-ignore-comment, invalid-assignment]
 
     json5lib = json5
 except ImportError:
-    import pyjson5
+    import pyjson5  # ty:ignore[unresolved-import, unused-ignore-comment, unused-ignore-comment]
 
-    json5 = None
+    json5 = None  # ty:ignore[unresolved-import, unused-ignore-comment, invalid-assignment]
 
     json5lib = pyjson5
 
@@ -42,6 +42,9 @@ class ProviderJSON5(DictProvider):
             self._storage.path = path
 
     async def save_file(self, path: pathlib.Path | None = None) -> None:
+        if self._storage is None:
+            raise ValueError("The storage is None")
+
         path = pathlib.Path(path) if path else self._storage.path
         if not path:
             raise ValueError(f"Path cannot be None | Path: {path}")

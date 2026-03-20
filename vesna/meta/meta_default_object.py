@@ -9,7 +9,7 @@ class MetaDefaultObject(type):
     A metaclass that provides basic DI tools can simulate global objects.
     """
 
-    _meta_objects: dict[type, object] = weakref.WeakValueDictionary()
+    _meta_objects: weakref.WeakValueDictionary[type, object] = weakref.WeakValueDictionary()
 
     def __init__(cls, name, bases, dct):
         super().__init__(name, bases, dct)

@@ -1,5 +1,5 @@
 import typing
-import weakref
+from weakref import WeakValueDictionary
 
 
 class MetaCache(type):
@@ -10,7 +10,7 @@ class MetaCache(type):
 
     def __init__(cls, name, bases, dct):
         super().__init__(name, bases, dct)
-        cls._meta_cache: dict[typing.Any, typing.Any] = weakref.WeakValueDictionary()
+        cls._meta_cache: WeakValueDictionary[typing.Any, typing.Any] = WeakValueDictionary()
 
     def __call__(cls, *args, **kwargs):
         cache_key = (args, tuple(sorted(kwargs.items())))

@@ -21,11 +21,11 @@ class Vesna(metaclass=MetaDefaultObject):
     def _path_handler(self, path: pathlib.Path | str | None, locale_code: str) -> pathlib.Path:
         if isinstance(path, str):
             if "{locale_code}" in path:
-                path = path.format(locale_code=locale_code)
+                path: str = path.format(locale_code=locale_code)
 
-            path = pathlib.Path(path)
+            path: pathlib.Path = pathlib.Path(path)
 
-        if not path.is_file():
+        if not path or not path.is_file():
             raise FileNotFoundError(path)
 
         return path
@@ -122,7 +122,7 @@ class Vesna(metaclass=MetaDefaultObject):
 
 vesna: Vesna = Vesna()
 
-I18n: Vesna = Vesna
+I18n = Vesna
 i18n: I18n = vesna
-Internationalization: Vesna = Vesna
+Internationalization = Vesna
 internationalization: Internationalization = vesna

@@ -32,6 +32,9 @@ class ProviderJSON(DictProvider):
             self._storage.path = path
 
     async def save_file(self, path: pathlib.Path | None = None) -> None:
+        if self._storage is None:
+            raise ValueError("The storage is None")
+
         path = pathlib.Path(path) if path else self._storage.path
         if not path:
             raise ValueError(f"Path cannot be None | Path: {path}")

@@ -1,4 +1,5 @@
 import datetime
+import decimal
 
 try:
     import babel
@@ -7,8 +8,8 @@ try:
 
     SUPPORT_BABEL = True
 except ImportError:
-    babel = None
-    BabelHandler = None
+    babel = None  # ty:ignore[invalid-assignment]
+    BabelHandler = None  # ty:ignore[invalid-assignment]
 
     SUPPORT_BABEL = False
 
@@ -37,18 +38,16 @@ class Locale(metaclass=MetaCache):
         text = self.vesna.get_text(key, self.locale_code)
         return text.format(*args, **kwargs) if (args or kwargs) else text
 
-    def get(self, key: str, default: str = None) -> str:
-        return self.vesna.get_text(key, self.locale_code, default)
+    def get(self, key: str, **kwargs) -> str:
+        return self.vesna.get_text(key, self.locale_code, **kwargs)
 
     if SUPPORT_BABEL:
 
         @property
-        def babel(self) -> babel.Locale:
+        def babel(self) -> babel.Locale:  # ty:ignore[unresolved-attribute]
             return self.babel_handler.get_locale(self.locale_code)
 
-        def date(
-            self, value: datetime.date | datetime.datetime | datetime.time, format: str = "medium"
-        ) -> str:
+        def date(self, value: datetime.datetime | None, format: str = "medium") -> str:
             return self.babel_handler.format_date(value, self.locale_code, format)
 
         def plural(self, key: str, count: int, **kwargs) -> str:
@@ -62,7 +61,9 @@ class Locale(metaclass=MetaCache):
 
             return text.format(count=count, **kwargs)
 
-        def currency(self, amount: float | int, currency_code: str = "USD") -> str:
+        def currency(
+            self, amount: float | decimal.Decimal | str, currency_code: str = "USD"
+        ) -> str:
             return self.babel_handler.format_currency(amount, currency_code, self.locale_code)
 
         def number(self, value: float | int) -> str:

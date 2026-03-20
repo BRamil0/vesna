@@ -9,23 +9,13 @@ class ProviderProtocol(Protocol):
     """
 
     @classmethod
-    async def from_file(cls, path: pathlib.Path, locale_code: str) -> ProviderProtocol:
-        """
-        Allows you to quickly create a new class instance and immediately load the localisation.
-        :param path: Path
-        :param locale_code: Localisation code
-        :return: New instance
-        """
+    async def from_file(cls, path: pathlib.Path, locale_code: str) -> ProviderProtocol: ...
 
-        instance = cls()
-        await instance.load_file(path, locale_code)
-        return instance
-
-    def __getitem__(self, key: str) -> str: ...
+    def __getitem__(self, key: str) -> str | None: ...
 
     def __setitem__(self, key: str, value: str) -> str: ...
 
-    def get(self, key: str, default: str | None = None, **kwargs) -> str: ...
+    def get(self, key: str, default: str | None = None, **kwargs) -> str | None: ...
 
     def set(self, key: str, value: str) -> str: ...
 

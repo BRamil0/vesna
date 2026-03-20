@@ -1,4 +1,5 @@
 import datetime
+import decimal
 
 import babel.dates
 import babel.numbers
@@ -22,16 +23,18 @@ class BabelHandler(metaclass=MetaDefaultObject):
 
     def format_date(
         self,
-        date: datetime.date | datetime.datetime | datetime.time,
+        date: datetime.date | None,
         locale_code: str,
         format: str = "medium",
     ):
         return babel.dates.format_date(date, format=format, locale=locale_code)
 
-    def format_currency(self, amount: str, currency: str, locale_code: str) -> str:
+    def format_currency(
+        self, amount: float | decimal.Decimal | str, currency: str, locale_code: str
+    ) -> str:
         return babel.numbers.format_currency(amount, currency, locale=locale_code)
 
-    def get_plural_form(self, count: str, locale_code: str) -> str:
+    def get_plural_form(self, count: int | float | decimal.Decimal, locale_code: str) -> str:
         locale = self.get_locale(locale_code)
         return locale.plural_form(count)
 

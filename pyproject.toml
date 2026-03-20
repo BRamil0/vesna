@@ -41,6 +41,7 @@ all = [
     "hjson",
     "fluent.runtime",
     "ruff",
+    "ty",
 ]
 
 [project.urls]

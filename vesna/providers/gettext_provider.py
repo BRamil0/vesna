@@ -13,16 +13,29 @@ class GettextProvider:
     Implementation of the protocol for the GNU Gettext format.
     """
 
+    @classmethod
+    async def from_file(cls, path: pathlib.Path, locale_code: str) -> GettextProvider:
+        """
+        Allows you to quickly create a new class instance and immediately load the localisation.
+        :param path: Path
+        :param locale_code: Localisation code
+        :return: New instance
+        """
+
+        instance = cls()
+        await instance.load_file(path, locale_code)
+        return instance
+
     def __init__(self) -> None:
         self._storage: GettextModel | None = None
 
-    def __getitem__(self, key: str) -> str:
+    def __getitem__(self, key: str) -> str | None:
         return self.get(key)
 
     def __setitem__(self, key: str, value: str) -> str:
         return self.set(key, value)
 
-    def get(self, key: str, default: str | None = None, **kwargs) -> str:
+    def get(self, key: str, default: str | None = None, **kwargs) -> str | None:
         if not self._storage:
             return default
 
@@ -49,6 +62,8 @@ class GettextProvider:
         return value
 
     def get_storage(self) -> GettextModel:
+        if self._storage is None:
+            raise ValueError("The storage is None")
         return self._storage
 
     def get_locale_code(self) -> str | None:
