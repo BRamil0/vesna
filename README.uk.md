@@ -39,7 +39,7 @@ async def main():
 
 #### Провайдери
 - `FluentProvider`: Формат Fluent (потребує `fluent.runtime`).
-- `GettextProvider`: Формат GHU Gettext (потребує `Babel`).
+- `GettextProvider`: Формат GNU Gettext (потребує `Babel`).
 - `ProviderJSON`: Формат JSON (потребує `pydantic`, використовує `pydantic_core`).
 - `ProviderJSON5`: Формат JSON5 (потребує `json5` або `pyjson5`).
 - `ProviderHJSON`: Формат HJSON (потребує `hjson`).
